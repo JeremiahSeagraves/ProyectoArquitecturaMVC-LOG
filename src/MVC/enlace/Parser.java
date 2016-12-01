@@ -26,53 +26,32 @@ public class Parser {
         try {
             //Se crea el documento a traves del archivo
             Document documento = (Document) builder.build(archivoXML);
-            //Se obtiene la raiz 'clases'
+            //Se obtiene la raiz 'operaciones'
             Element nodoClases = documento.getRootElement();
 
-            //Se obtiene la lista de hijos de la raiz 'tables'
-            List list = nodoClases.getChildren("clase");
+            //Se obtiene la lista de hijos de la raiz 'operaciones'
+            List list = nodoClases.getChildren("operacion");
 
-            //Se recorre la lista de hijos de 'clases'
+            //Se recorre la lista de hijos de 'operaciones'
             for (int i = 0; i < list.size(); i++) {
-                //Se obtiene el elemento 'clase'
-                Element clase = (Element) list.get(i);
-
-                //Se obtiene el atributo 'nombre' que esta en el tag 'clase'
-                String nombreClaseCtrl = clase.getAttributeValue("nombre");
-
-                //Se obtiene la lista de hijos del tag 'tabla'
-                List lista_enlaces = clase.getChildren();
-
+                Element operacion = (Element) list.get(i);
+                String nombreOperacion = operacion.getAttributeValue("nombre");
+                String controlador = operacion.getAttributeValue("controlador");
+                String metodo = operacion.getAttributeValue("metodo");
+                
                 //Se crea la Relacion entre las operaciones de vista y el controlador especifico
-                Relacion relacion = new Relacion(nombreClaseCtrl, lista_enlaces.size());
-
-                //Se recorre la lista de campos
-                int j = 0;
-                for (Object lista_enlace : lista_enlaces) {
-                    //Se obtiene el elemento 'campo'
-                    Element campo = (Element) lista_enlace;
-                    //Se obtienen los valores que estan entre los tags '<enlace></enlace>'
-                    //Se obtiene el valor que esta entre los tags '<operacion></operacion>'
-                    String operacionView = campo.getChildTextTrim("operacion");
-                    //Se obtiene el valor que esta entre los tags '<metodoCtrl></metodoCtrl>'
-                    String operacionCtrl = campo.getChildTextTrim("metodoCtrl");
-                    
-                    relacion.setRelacion(operacionView, operacionCtrl, j);
-                    j++;
-                    
-                    relaciones.add(relacion);
-                }
-               
+                Relacion relacion = new Relacion(nombreOperacion, controlador, metodo);
+                relaciones.add(relacion);
             }
         } catch (IOException | JDOMException io) {
             System.out.println(io.getMessage());
         }
     }
 
-    public String obtenerOperacionControlador(String clase, String operacion) {
+    public Relacion obtenerRelacion(String operacion) {
         for (int i = 0; i < relaciones.size();i++) {
-            if (relaciones.get(i).controlador.equals(clase)) {
-                return relaciones.get(i).getOperacionControlador(operacion);
+            if (relaciones.get(i).getOperacion().equals(operacion)) {
+                return relaciones.get(i);
             }
         }
         return null;

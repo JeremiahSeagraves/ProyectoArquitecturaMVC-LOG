@@ -1,14 +1,17 @@
 package MVC.enlace;
 
 import MVC.controlador.Controlador;
+import MVC.excepciones.ArgumentosNoCorrectos;
 import MVC.excepciones.ClaseNoEncontrada;
+import MVC.excepciones.ErrorAlInvocarObjetivo;
 import MVC.excepciones.FalloInstanciaDeClase;
+import MVC.excepciones.MetodoNoExiste;
 import java.lang.reflect.Method;
 import MVC.vista.Evento;
 import MVC.excepciones.NoEsSubclaseControlador;
 import MVC.excepciones.NoSePuedeAccederAlaClase;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import MVC.excepciones.ViolacionDeSeguridad;
+import java.lang.reflect.InvocationTargetException;
 
 public class Enlace {
 
@@ -32,26 +35,36 @@ public class Enlace {
         this.parser.obtenerEnlaces();
     }
 
-    public void mandarEvento(Evento evt) throws ClaseNoEncontrada, NoEsSubclaseControlador, FalloInstanciaDeClase, NoSePuedeAccederAlaClase{
-        Class clazz = getSubclaseControlador(evt.getClase());
+    public void mandarEvento(Evento evt) throws ClaseNoEncontrada, NoEsSubclaseControlador, FalloInstanciaDeClase, NoSePuedeAccederAlaClase, MetodoNoExiste, ViolacionDeSeguridad, ArgumentosNoCorrectos, ErrorAlInvocarObjetivo {
+        Relacion relacion = parser.obtenerRelacion(evt.getOperacion());
+        Class clazz = getSubclaseControlador(relacion.getControlador());
         esClaseDeControlador(clazz);
         Object instanceClazz = getInstanceClass(clazz);
-        Method metodo1 = clazz.getSuperclass().getDeclaredMethod("setEvento", Evento.class);
-        metodo1.invoke(instanceClazz, evt);
-        Method metodo = clazz.getDeclaredMethod(parser.obtenerOperacionControlador(evt.getClase(), evt.getOperacion()), null);
-        metodo.invoke(instanceClazz, null);
+        try {
+            enviarAControladorElEvento(clazz).invoke(instanceClazz, evt);
+            Method metodo = clazz.getDeclaredMethod(relacion.getOperacionCtrl(), null);
+            metodo.invoke(instanceClazz, null);
+        } catch (IllegalAccessException ex) {
+            throw new NoSePuedeAccederAlaClase();
+        } catch (IllegalArgumentException ex) {
+            throw new ArgumentosNoCorrectos();
+        } catch (InvocationTargetException ex) {
+            throw new ErrorAlInvocarObjetivo();
+        } catch (NoSuchMethodException ex) {
+            throw new MetodoNoExiste();
+        } catch (SecurityException ex) {
+            throw new ViolacionDeSeguridad();
+        }
 
     }
 
-    
-    
     private void esClaseDeControlador(Class clazz) throws NoEsSubclaseControlador {
         if (!clazz.getSuperclass().equals(Controlador.class)) {
             throw new NoEsSubclaseControlador();
         }
     }
-    
-    private Class getSubclaseControlador(String claz) throws ClaseNoEncontrada{
+
+    private Class getSubclaseControlador(String claz) throws ClaseNoEncontrada {
         Class clazz;
         try {
             clazz = Class.forName(claz);
@@ -60,9 +73,9 @@ public class Enlace {
             throw new ClaseNoEncontrada();
         }
     }
-    
-    private Object getInstanceClass(Class clazz) throws FalloInstanciaDeClase, NoSePuedeAccederAlaClase{
-        
+
+    private Object getInstanceClass(Class clazz) throws FalloInstanciaDeClase, NoSePuedeAccederAlaClase {
+
         try {
             return clazz.newInstance();
         } catch (InstantiationException ex) {
@@ -70,7 +83,17 @@ public class Enlace {
         } catch (IllegalAccessException ex) {
             throw new NoSePuedeAccederAlaClase();
         }
-        return null;
     }
 
+    private Method enviarAControladorElEvento(Class clazz) throws MetodoNoExiste, ViolacionDeSeguridad {
+        Method metodo1;
+        try {
+            metodo1 = clazz.getSuperclass().getDeclaredMethod("setEvento", Evento.class);
+            return metodo1;
+        } catch (NoSuchMethodException ex) {
+            throw new MetodoNoExiste();
+        } catch (SecurityException ex) {
+            throw new ViolacionDeSeguridad();
+        }
+    }
 }

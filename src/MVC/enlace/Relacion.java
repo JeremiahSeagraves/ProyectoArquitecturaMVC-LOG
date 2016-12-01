@@ -10,28 +10,26 @@ package MVC.enlace;
  * @author Milka
  */
 public class Relacion {
-    public String controlador;
-    public String[] operacionesVista;
-    public String[] operacionesControlador;
+
+    private String operacion;
+    private String controlador;
+    private String operacionCtrl;
     
-    public Relacion(String clazzControlador, int numeroDeRelaciones){
-        this.controlador = clazzControlador;
-        this.operacionesControlador = new String[numeroDeRelaciones];
-        this.operacionesVista = new String[numeroDeRelaciones];
+    public Relacion(String operacion, String controlador, String operacionCtrl){
+        this.controlador = controlador;
+        this.operacion = operacion;
+        this.operacionCtrl = operacionCtrl;
     }
-    
-    public void setRelacion(String operacionVista, String operacionControlador, int n){
-        this.operacionesControlador[n] = operacionControlador;
-        this.operacionesVista[n] = operacionVista;
+
+    public String getOperacion() {
+        return operacion;
     }
-    
-    public String getOperacionControlador(String operacionVista){
-        for (int i = 0; i < operacionesVista.length; i++) {
-            if (this.operacionesVista[i].equals(operacionVista)) {
-                return operacionesControlador[i];
-            }
-        }
-        return null;
+
+    public String getControlador() {
+        return controlador;
     }
-    
+
+    public String getOperacionCtrl() {
+        return operacionCtrl;
+    }
 }

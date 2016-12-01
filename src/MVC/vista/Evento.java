@@ -2,19 +2,13 @@ package MVC.vista;
 
 
 public class Evento{
-    private String clase;
     private String operacion;
     private Object object;
     
     
-    public Evento(String clase, String operacion, Object object){
-        this.clase = clase;
+    public Evento(String operacion, Object object){
         this.operacion = operacion;
         this.object = object;
-    }
-
-    public String getClase() {
-        return clase;
     }
 
     public String getOperacion() {

@@ -5,12 +5,14 @@
  */
 package MVC.vista;
 
+import MVC.excepciones.ArgumentosNoCorrectos;
 import MVC.excepciones.ClaseNoEncontrada;
+import MVC.excepciones.ErrorAlInvocarObjetivo;
 import MVC.excepciones.FalloInstanciaDeClase;
+import MVC.excepciones.MetodoNoExiste;
 import MVC.excepciones.NoEsSubclaseControlador;
 import MVC.excepciones.NoSePuedeAccederAlaClase;
-import MVC.vista.Vista;
-import MVC.vista.Evento;
+import MVC.excepciones.ViolacionDeSeguridad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -32,14 +34,14 @@ public class VistaPrueba extends Vista {
         ventana = new Ventana();
         ventana.setVisible(true);
         guardarNombre();
-        setConfiguracion("archivoConfiguracionDefault.xml");
+        setConfiguracion("C:\\Users\\Milka\\Documents\\NeatBeansProjects\\ProyectoArquitecturaMVC-LOGIN\\archivoConfiguracionDefault.xml");
     }
 
     public void guardarNombre() {
         ventana.getBoton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                Evento e = new Evento("controlador.ControladorPrueba", "operacion1", ventana.getField().getText());
+                Evento e = new Evento("update", ventana.getField().getText());
                 try {
                     callService(e);
                 } catch (ClaseNoEncontrada ex) {
@@ -49,6 +51,14 @@ public class VistaPrueba extends Vista {
                 } catch (FalloInstanciaDeClase ex) {
                     Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NoSePuedeAccederAlaClase ex) {
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MetodoNoExiste ex) {
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ViolacionDeSeguridad ex) {
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ArgumentosNoCorrectos ex) {
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ErrorAlInvocarObjetivo ex) {
                     Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
