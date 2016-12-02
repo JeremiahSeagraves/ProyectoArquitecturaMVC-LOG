@@ -12,11 +12,13 @@ import MVC.excepciones.NoEsSubclaseControlador;
 import MVC.excepciones.NoSePuedeAccederAlaClase;
 import MVC.excepciones.ViolacionDeSeguridad;
 import java.lang.reflect.InvocationTargetException;
+import org.apache.log4j.Logger;
 
 public class Enlace {
 
     private static Enlace instanceEnlace;
     private Parser parser;
+    private static Logger log = Logger.getLogger(Enlace.class);
 
     private Enlace() {
         this.parser = new Parser();
@@ -45,14 +47,19 @@ public class Enlace {
             Method metodo = clazz.getDeclaredMethod(relacion.getOperacionCtrl(), null);
             metodo.invoke(instanceClazz, null);
         } catch (IllegalAccessException ex) {
-            throw new NoSePuedeAccederAlaClase();
+            log.error("Uncaught exception.", ex);
+            throw new NoSePuedeAccederAlaClase();    
         } catch (IllegalArgumentException ex) {
+            log.error("Uncaught exception.", ex);
             throw new ArgumentosNoCorrectos();
         } catch (InvocationTargetException ex) {
+            log.error("Uncaught exception.", ex);
             throw new ErrorAlInvocarObjetivo();
         } catch (NoSuchMethodException ex) {
+            log.error("Uncaught exception.", ex);
             throw new MetodoNoExiste();
         } catch (SecurityException ex) {
+            log.error("Uncaught exception.", ex);
             throw new ViolacionDeSeguridad();
         }
 

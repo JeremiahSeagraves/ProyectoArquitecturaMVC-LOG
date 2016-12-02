@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -13,6 +14,7 @@ public class Parser {
 
     private ArrayList<Relacion> relaciones;
     private String archivoConfiguracion;
+    private static Logger log = Logger.getLogger(Parser.class);
 
     public Parser() {
         relaciones = new ArrayList();
@@ -44,6 +46,7 @@ public class Parser {
                 relaciones.add(relacion);
             }
         } catch (IOException | JDOMException io) {
+            log.error(io.getMessage());
             System.out.println(io.getMessage());
         }
     }
