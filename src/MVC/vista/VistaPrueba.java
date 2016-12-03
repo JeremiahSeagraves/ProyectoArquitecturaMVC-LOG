@@ -16,8 +16,8 @@ import MVC.excepciones.ViolacionDeSeguridad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 public class VistaPrueba extends Vista {
 
     Ventana ventana;
-    private static Logger log = Logger.getLogger(VistaPrueba.class);
+
     ClaseNoEncontrada claseNoEncontrada = new ClaseNoEncontrada();
 
     public static void main(String[] args) {
@@ -49,40 +49,28 @@ public class VistaPrueba extends Vista {
                     callService(e);
                 } catch (ClaseNoEncontrada ex) {
                     
-                    //Haciendo pruebas de cual graba el mensaje de manera correcta
-                    log.error(VistaPrueba.class.getName());
-                    log.error("Uncaught exception.", ex);
-                    log.error(claseNoEncontrada.getMensaje());
-//                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NoEsSubclaseControlador ex) {
-                    log.error(VistaPrueba.class.getName());
-                    log.error("Uncaught exception.", ex);
-//                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (FalloInstanciaDeClase ex) {
-                    log.error(VistaPrueba.class.getName());
-                    log.error("Uncaught exception.", ex);
                     
-//                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NoSePuedeAccederAlaClase ex) {
-                    log.error(VistaPrueba.class.getName());
-                    log.error("Uncaught exception.", ex);
-//                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MetodoNoExiste ex) {
-                    log.error(VistaPrueba.class.getName());
-                    log.error("Uncaught exception.", ex);
-//                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ViolacionDeSeguridad ex) {
-                    log.error(VistaPrueba.class.getName());
-                    log.error("Uncaught exception.", ex);
-//                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ArgumentosNoCorrectos ex) {
-                    log.error(VistaPrueba.class.getName());
-                    log.error("Uncaught exception.", ex);
-//                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ErrorAlInvocarObjetivo ex) {
-                    log.error(VistaPrueba.class.getName());
-                    log.error("Uncaught exception.", ex);
-//                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
+
+                    Logger.getLogger(VistaPrueba.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

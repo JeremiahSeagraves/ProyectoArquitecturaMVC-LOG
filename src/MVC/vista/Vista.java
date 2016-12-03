@@ -10,13 +10,11 @@ import MVC.excepciones.MetodoNoExiste;
 import MVC.excepciones.NoEsSubclaseControlador;
 import MVC.excepciones.NoSePuedeAccederAlaClase;
 import MVC.excepciones.ViolacionDeSeguridad;
-import org.apache.log4j.Logger;
 
 
 public abstract class Vista {
     
     private Enlace enlace;
-    private static Logger log = Logger.getLogger(Vista.class);
     
     public Vista(){
         enlace = Enlace.getInstanceEnlace();

@@ -5,15 +5,19 @@
  */
 package MVC.excepciones;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author Milka
  */
 public class ViolacionDeSeguridad extends Exception{
     
-    private final String mensaje = "Ha habido una violación de seguridad";
+    private final String mensaje = "Ha habido una violación de seguridad";    
+    private static Logger log = Logger.getLogger(ViolacionDeSeguridad.class);
     
     public String getMensaje(){
+        log.error(mensaje);
         return mensaje;
     }
 }

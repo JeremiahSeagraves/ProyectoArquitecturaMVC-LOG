@@ -5,6 +5,8 @@
  */
 package MVC.excepciones;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author Milka
@@ -12,8 +14,10 @@ package MVC.excepciones;
 public class MetodoNoExiste extends Exception{
     
     private final String mensaje = "El método no existe";
+    private static Logger log = Logger.getLogger(MetodoNoExiste.class);
     
     public String getMensaje(){
+        log.error(mensaje);
         return mensaje;
     }
 }
