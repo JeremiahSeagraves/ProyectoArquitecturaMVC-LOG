@@ -12,10 +12,10 @@ import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import mapeo.excepcion.CampoTablaNoExiste;
-import mapeo.excepcion.MetodoSetNoEncontrado;
+
+import mapeo.excepcion.MapeoErroneoExcepcion;
+
+import mapeo.excepcion.ObjetoErroneoExcepcion;
 
 /**
  *
@@ -24,51 +24,58 @@ import mapeo.excepcion.MetodoSetNoEncontrado;
 public class GeneradorObjetos {
 
     private ArrayList listaObjetos;
-    private RelacionClaseTabla relacion;
+    private MapeoClaseTabla mapeo;
     private ResultSet tabla;
 
-    public GeneradorObjetos(RelacionClaseTabla relacion, ResultSet tabla) {
-        this.relacion = relacion;
+    public GeneradorObjetos(MapeoClaseTabla relacion, ResultSet tabla) {
+        this.mapeo = relacion;
         this.tabla = tabla;
         listaObjetos = new ArrayList();
     }
 
-    public void generarObjetos() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
-        Class nuevaClase = Class.forName(relacion.getNombreClase());
-
-        while (tabla.next()) {
+    public void generarObjetos() throws ObjetoErroneoExcepcion, MapeoErroneoExcepcion, SQLException {
+        try {
+            Class nuevaClase = Class.forName(mapeo.getNombreClase());
             Object nuevoObjeto = nuevaClase.newInstance();
-            inicializarPorMetodoSet(nuevoObjeto);
-
+            while (tabla.next()) {
+                inicializarObjeto(nuevoObjeto);
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            throw new ObjetoErroneoExcepcion("No se puede instanciar el objeto: " + mapeo.getNombreClase());
         }
 
     }
 
-    private boolean inicializarPorMetodoSet(Object nuevoObjeto) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException, NoSuchMethodException {
-        boolean bandera = false;
+    private void inicializarObjeto(Object nuevoObjeto) throws MapeoErroneoExcepcion, ObjetoErroneoExcepcion {
+
         Field[] atributosClase = nuevoObjeto.getClass().getDeclaredFields();
         for (int i = 0; i < atributosClase.length; i++) {
-            String nombreCampo = relacion.getCampo(atributosClase[i].getName());
+            String nombreCampo = mapeo.getCampo(atributosClase[i].getName());
             if (nombreCampo != null) {
                 inicializarAtributo(nombreCampo, nuevoObjeto, atributosClase[i]);
             }
         }
-        return bandera;
 
     }
 
-    private void inicializarAtributo(String campo, Object objeto, Field atributo) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException, NoSuchMethodException {
-        
-        String nombreMetodoSet = getNombreMetodoSet(atributo, objeto);
-        Class[] parametrosMetodoSet = {atributo.getType()};
-        Method metodoSet = null;
-        metodoSet = objeto.getClass().getDeclaredMethod(nombreMetodoSet, parametrosMetodoSet);
-        metodoSet.invoke(objeto, tabla.getObject(campo));
+    private void inicializarAtributo(String campo, Object objeto, Field atributo) throws MapeoErroneoExcepcion, ObjetoErroneoExcepcion {
+
+        try {
+            String nombreMetodoSet = getNombreMetodoSet(atributo, objeto);
+            Class[] parametrosMetodoSet = {atributo.getType()};
+            Method metodoSet = null;
+            metodoSet = objeto.getClass().getDeclaredMethod(nombreMetodoSet, parametrosMetodoSet);
+            metodoSet.invoke(objeto, tabla.getObject(campo));
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new ObjetoErroneoExcepcion("No se encontro el metodo para iniciar el atributo:" + campo);
+        } catch (SQLException ex) {
+            throw new MapeoErroneoExcepcion("La tabla en la Base de Datos no contiene : " + campo);
+        }
 
     }
 
     private String getNombreMetodoSet(Field atributo, Object objeto) {
-        
+
         String nombreMetodo = "set" + atributo.getName();
         Method[] metodos = objeto.getClass().getMethods();
         for (int i = 0; i < metodos.length; i++) {

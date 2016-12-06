@@ -10,6 +10,9 @@ import mapeo.configuracion.ParseadorConfiguracionMapeo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import mapeo.excepcion.MapeoErroneoExcepcion;
+import mapeo.excepcion.MapeoInexistenteExcepcion;
+import mapeo.excepcion.ObjetoErroneoExcepcion;
 
 /**
  *
@@ -18,7 +21,7 @@ import java.util.ArrayList;
 public class MapeadorObjetoRelacional {
 
     private ArrayList listaObjetos;
-    private RelacionClaseTabla[] relaciones;
+    private MapeoClaseTabla[] mapeos;
 
     public MapeadorObjetoRelacional(String URLArchivoConfiguracion) {
         iniciarRelacioTablaClase(URLArchivoConfiguracion);
@@ -26,22 +29,33 @@ public class MapeadorObjetoRelacional {
 
     private void iniciarRelacioTablaClase(String URLArchivoConfiguracion) {
         ParseadorConfiguracionMapeo parseador = new ParseadorConfiguracionMapeo();
-        relaciones = parseador.parsear(URLArchivoConfiguracion);
+        mapeos = parseador.parsear(URLArchivoConfiguracion);
     }
 
-    public void mapearObjetosRelacion(String URLClase, PoolConnection conexion) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+    public void mapearObjetosRelacion(String URLClase, PoolConnection conexion) throws MapeoInexistenteExcepcion, ObjetoErroneoExcepcion, MapeoErroneoExcepcion, SQLException  {
 
-        for (int j = 0; j < relaciones.length; j++) {
+        MapeoClaseTabla mapeo = encontrarMapeo(URLClase);
+        if (mapeo != null) {
+            String consulta = "SELECT * FROM " + mapeo.getNombreTabla();
+            ResultSet datosTabla = conexion.query(consulta);
+            GeneradorObjetos generador = new GeneradorObjetos(mapeo, datosTabla);
+            generador.generarObjetos();
+            listaObjetos = generador.getListaObjetos();
+        }else{
+            throw new MapeoInexistenteExcepcion("No existe un mapeo para la clase: "+ URLClase);
+        }
 
-            if ((relaciones[j].getNombreClase()).equals(URLClase)) {
-                String consulta = "SELECT * FROM " + relaciones[j].getNombreTabla();
-                ResultSet datosTabla = conexion.query(consulta);
-                GeneradorObjetos generador = new GeneradorObjetos(relaciones[j], datosTabla);
-                generador.generarObjetos();
-                listaObjetos = generador.getListaObjetos();
+    }
+
+    private MapeoClaseTabla encontrarMapeo(String clase) {
+        for (int j = 0; j < mapeos.length; j++) {
+
+            if ((mapeos[j].getNombreClase()).equals(clase)) {
+                return mapeos[j];
             }
 
         }
+        return null;
 
     }
 
