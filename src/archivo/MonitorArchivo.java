@@ -18,10 +18,11 @@ public class MonitorArchivo extends Thread {
 	private static Logger log = Logger.getLogger(MonitorArchivo.class);
 
 	private static final String ARCHIVO_NO_ENCONTRADO = "El archivo de configuracion BD especificado no ha sido encontrado.";
-	private static final String ARCHIVO_MODIFICADO = "El archivo de configuración BD ha sido modificado.";
+	private static final String ARCHIVO_MODIFICADO = "El archivo de configuraciï¿½n BD ha sido modificado.";
 
-	public MonitorArchivo(String nombre) throws ArchivoConfigBDNoEncontradaException {
+	public MonitorArchivo(String nombre, String ruta) throws ArchivoConfigBDNoEncontradaException {
 		calendarioUltimaModificacion = new GregorianCalendar();
+                setRuta(ruta);
 		inicializaArchivo();
 	}
 
@@ -86,5 +87,4 @@ public class MonitorArchivo extends Thread {
 	public String getRuta() {
 		return ruta;
 	}
-
 }

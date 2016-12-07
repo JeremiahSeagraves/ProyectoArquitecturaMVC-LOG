@@ -8,11 +8,10 @@ public class Main {
 	public static void main(String[] args) {
 		MonitorArchivo monitor = null;
 		try {
-			monitor = new MonitorArchivo("Monitor1");
+			monitor = new MonitorArchivo("Monitor1","configuracion-bd.xml");
 		} catch (ArchivoConfigBDNoEncontradaException e) {
 			e.printStackTrace();
 		}
-		monitor.setRuta("configuracion-bd.xml");
 		
 		monitor.start();
 		
