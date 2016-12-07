@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import mapeo.excepcion.MapeoErroneoExcepcion;
 import mapeo.excepcion.MapeoInexistenteExcepcion;
 import mapeo.excepcion.ObjetoErroneoExcepcion;
+import pool.poolconnection.
 
 /**
  *

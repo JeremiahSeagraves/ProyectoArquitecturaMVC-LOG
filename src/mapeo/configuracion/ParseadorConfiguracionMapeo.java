@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import mapeo.MapeoClaseTabla;
+import mapeo.excepcion.ArchivoConfiguracionNoEncontrado;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -16,7 +17,7 @@ public class ParseadorConfiguracionMapeo {
 
     }
 
-    public MapeoClaseTabla[] parsear(String ruta) {
+    public MapeoClaseTabla[] parsear(String ruta) throws ArchivoConfiguracionNoEncontrado {
         MapeoClaseTabla[] configuracion = null ;
         //Se crea un SAXBuilder para poder parsear el archivo
         SAXBuilder builder = new SAXBuilder();
@@ -60,10 +61,8 @@ public class ParseadorConfiguracionMapeo {
                 configuracion[i] = nuevaRelacion;
 
             }
-        } catch (IOException io) {
-            io.printStackTrace();
-        } catch (JDOMException jdomex) {
-            jdomex.printStackTrace();
+        } catch (IOException | JDOMException io) {
+            throw new ArchivoConfiguracionNoEncontrado("No encontrado Archivo de configuracion: "+ ruta);
         }
         
         return configuracion;
