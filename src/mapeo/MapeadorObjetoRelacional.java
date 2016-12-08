@@ -10,12 +10,16 @@ import mapeo.configuracion.ParseadorConfiguracionMapeo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import mapeo.excepcion.ArchivoConfiguracionNoEncontrado;
 import mapeo.excepcion.MapeoErroneoExcepcion;
 import mapeo.excepcion.MapeoInexistenteExcepcion;
 import mapeo.excepcion.ObjetoErroneoExcepcion;
-import pool.poolconnection.
+import pool.PoolConnection;
 
 /**
+ *
+ * @author Noe
+ *//**
  *
  * @author Noe
  */
@@ -24,11 +28,11 @@ public class MapeadorObjetoRelacional {
     private ArrayList listaObjetos;
     private MapeoClaseTabla[] mapeos;
 
-    public MapeadorObjetoRelacional(String URLArchivoConfiguracion) {
+    public MapeadorObjetoRelacional(String URLArchivoConfiguracion) throws ArchivoConfiguracionNoEncontrado {
         iniciarRelacioTablaClase(URLArchivoConfiguracion);
     }
 
-    private void iniciarRelacioTablaClase(String URLArchivoConfiguracion) {
+    private void iniciarRelacioTablaClase(String URLArchivoConfiguracion) throws ArchivoConfiguracionNoEncontrado {
         ParseadorConfiguracionMapeo parseador = new ParseadorConfiguracionMapeo();
         mapeos = parseador.parsear(URLArchivoConfiguracion);
     }
