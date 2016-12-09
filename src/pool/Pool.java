@@ -18,9 +18,6 @@ public class Pool {
         String ruta = "src/pool/archivoConfiguracion.xml";
         MonitorArchivoConfiguracion monitorArchivo =
                 new MonitorArchivoConfiguracion("Pool", ruta);
-        monitorArchivo.start();
-        
-        AdminPool adminPool = AdminPool.getInstance();
-        adminPool.initializePoolConnections();        
+        monitorArchivo.start();                        
     }
 }

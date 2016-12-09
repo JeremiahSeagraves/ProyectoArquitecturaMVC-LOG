@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import MVC.excepciones.ArchivoConfigNotFoundException;
+import MVC.excepciones.ConnectionsInUseException;
 import MVC.excepciones.ErrorPoolConfigException;
 
 /**
@@ -24,6 +25,7 @@ public class MonitorArchivoConfiguracion extends Thread{
     private Calendar calendarioUltimaModificacion = null;
     private Calendar calendarioActual = null;
     private File archivoConfiguracion = null;
+    private AdminPool adminPool;
     private ParserXML parser;
 
     private static final String ARCHIVO_NO_ENCONTRADO = "El archivo de configuracion del Pool especificado no ha sido encontrado.";
@@ -31,6 +33,7 @@ public class MonitorArchivoConfiguracion extends Thread{
     public MonitorArchivoConfiguracion(String nombre, String ruta) {
         calendarioUltimaModificacion = new GregorianCalendar();
         this.ruta = ruta;
+        adminPool = AdminPool.getInstance();
         parser = new ParserXML(this.ruta);
         inicializaArchivo();
     }
@@ -41,15 +44,17 @@ public class MonitorArchivoConfiguracion extends Thread{
         //System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
         while (true) {
             inicializaArchivo();
-            
+            adminPool.initializePoolConnections();
             try {
                 existeArchivo();
                 
                 if(cambioArchivo()){
-                    actualizarConfiguracion();                    
-                }
-                
+                    actualizarConfiguracion();   
+                    adminPool.changePoolConnections();
+                }                
             } catch (ArchivoConfigNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (ConnectionsInUseException ex) {
                 ex.printStackTrace();
             }
             
@@ -93,6 +98,10 @@ public class MonitorArchivoConfiguracion extends Thread{
         } else {
             return false;
         }
+    }
+    
+    public AdminPool getAdminPool(){
+        return adminPool;
     }
 
     public void setRuta(String ruta) {

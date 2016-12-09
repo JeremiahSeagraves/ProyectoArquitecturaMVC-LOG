@@ -23,7 +23,6 @@ public class AdminPool {
     private static ArrayList<PoolConnection> availablePoolConnections;
     private static ArrayList<PoolConnection> unavailablePoolConnections;
     private AdminConexiones adminConexiones;
-    //private ParserXML parser;
     
     private static int numberOfConnections;
     
