@@ -64,11 +64,11 @@ public class Enlace {
         }
     }
 
-    private Class getSubclaseControlador(String claz) throws ClaseNoEncontrada {
-        Class clazz;
+    private Class getSubclaseControlador(String clazz) throws ClaseNoEncontrada {
+        Class claz;
         try {
-            clazz = Class.forName(claz);
-            return clazz;
+            claz = Class.forName(clazz);
+            return claz;
         } catch (ClassNotFoundException ex) {
             throw new ClaseNoEncontrada();
         }

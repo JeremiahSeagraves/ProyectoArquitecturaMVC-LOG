@@ -24,7 +24,7 @@ public abstract class Vista {
         enlace.mandarEvento(e);
     }
     
-    public void setConfiguracion(String xml){
-        enlace.setArchivoConfiguracion(xml);
+    public void setConfiguracion(String archivo){
+        enlace.setArchivoConfiguracion(archivo);
     }
 }

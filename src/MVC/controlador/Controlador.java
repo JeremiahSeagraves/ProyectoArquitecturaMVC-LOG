@@ -10,7 +10,7 @@ public abstract class Controlador {
         this.evt = evt;
     }
     
-    public Evento getEvt(){
+    public Evento getEvento(){
         return this.evt;
     }
 }
