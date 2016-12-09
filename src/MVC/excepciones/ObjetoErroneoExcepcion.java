@@ -3,16 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mapeo.excepcion;
+package MVC.excepciones;
+
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Noe
  */
 public class ObjetoErroneoExcepcion extends Exception{
+    private static Logger log = Logger.getLogger(ObjetoErroneoExcepcion.class);
+
 
     public ObjetoErroneoExcepcion(String message) {
         super(message);
+        log.error(message);
     }
     
 }

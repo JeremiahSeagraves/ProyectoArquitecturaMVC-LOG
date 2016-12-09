@@ -9,8 +9,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pool.exceptions.ConnectionsInUseException;
-import pool.exceptions.NotAvailableConnectionsException;
+import MVC.excepciones.ConnectionsInUseException;
+import MVC.excepciones.NotAvailableConnectionsException;
 
 /**
  *

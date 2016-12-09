@@ -11,8 +11,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pool.exceptions.ArchivoConfigNotFoundException;
-import pool.exceptions.ErrorPoolConfigException;
+import MVC.excepciones.ArchivoConfigNotFoundException;
+import MVC.excepciones.ErrorPoolConfigException;
 
 /**
  *
