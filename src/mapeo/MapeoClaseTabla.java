@@ -17,7 +17,7 @@ public class MapeoClaseTabla {
     private String nombreTabla;
     private ArrayList<String> atributosClase;
     private ArrayList<String> camposTabla;
-    private int size=0;
+    private int tamanio=0;
 
     public MapeoClaseTabla() {
         this.atributosClase = new ArrayList<>();
@@ -25,14 +25,14 @@ public class MapeoClaseTabla {
     }
     
     
-    public void add(String atributo, String campo){
+    public void agregar(String atributo, String campo){
         atributosClase.add(atributo);
         camposTabla.add(campo);
-        size++;
+        tamanio++;
     }
     
-    public int size(){
-       return size;
+    public int tamanio(){
+       return tamanio;
     }
     
     public String getCampo(String atributo){
@@ -45,36 +45,26 @@ public class MapeoClaseTabla {
         return null;
     }
 
-    /**
-     * @return the nombreClase
-     */
+  
     public String getNombreClase() {
         return nombreClase;
     }
 
-    /**
-     * @param nombreClase the nombreClase to set
-     */
+    
     public void setNombreClase(String nombreClase) {
         this.nombreClase = nombreClase;
     }
 
-    /**
-     * @return the nombreTabla
-     */
+   
     public String getNombreTabla() {
         return nombreTabla;
     }
 
-    /**
-     * @param nombreTabla the nombreTabla to set
-     */
+    
     public void setNombreTabla(String nombreTabla) {
         this.nombreTabla = nombreTabla;
     }
     
-    public String relacionAtributoCampo(int indice){
-        return atributosClase.get(indice)+" "+ camposTabla.get(indice);
-    }
+   
 
 }

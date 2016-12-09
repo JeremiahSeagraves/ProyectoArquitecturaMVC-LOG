@@ -9,10 +9,10 @@ package mapeo.excepcion;
  *
  * @author Noe
  */
-public class ArchivoConfiguracionNoEncontrado extends Exception{
+public class ArchivoConfiguracionNoEncontradoExcepcion extends Exception{
 
-    public ArchivoConfiguracionNoEncontrado(String message) {
-        super(message);
+    public ArchivoConfiguracionNoEncontradoExcepcion(String mensaje) {
+        super(mensaje);
     }
     
 }

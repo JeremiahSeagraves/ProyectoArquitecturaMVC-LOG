@@ -5,7 +5,7 @@
  */
 package mapeo;
 
-import java.lang.reflect.Constructor;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,8 +27,8 @@ public class GeneradorObjetos {
     private MapeoClaseTabla mapeo;
     private ResultSet tabla;
 
-    public GeneradorObjetos(MapeoClaseTabla relacion, ResultSet tabla) {
-        this.mapeo = relacion;
+    public GeneradorObjetos(MapeoClaseTabla mapeo, ResultSet tabla) {
+        this.mapeo = mapeo;
         this.tabla = tabla;
         listaObjetos = new ArrayList();
     }
@@ -49,6 +49,8 @@ public class GeneradorObjetos {
     private void inicializarObjeto(Object nuevoObjeto) throws MapeoErroneoExcepcion, ObjetoErroneoExcepcion {
 
         Field[] atributosClase = nuevoObjeto.getClass().getDeclaredFields();
+        
+        //Inicializa cada atributo de la clase
         for (int i = 0; i < atributosClase.length; i++) {
             String nombreCampo = mapeo.getCampo(atributosClase[i].getName());
             if (nombreCampo != null) {
@@ -78,6 +80,7 @@ public class GeneradorObjetos {
 
         String nombreMetodo = "set" + atributo.getName();
         Method[] metodos = objeto.getClass().getMethods();
+        
         for (int i = 0; i < metodos.length; i++) {
             if ((metodos[i].getName().toLowerCase()).contains(nombreMetodo.toLowerCase())) {
                 return metodos[i].getName();

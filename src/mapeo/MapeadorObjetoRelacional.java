@@ -5,12 +5,11 @@
  */
 package mapeo;
 
-import java.lang.reflect.InvocationTargetException;
 import mapeo.configuracion.ParseadorConfiguracionMapeo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import mapeo.excepcion.ArchivoConfiguracionNoEncontrado;
+import mapeo.excepcion.ArchivoConfiguracionNoEncontradoExcepcion;
 import mapeo.excepcion.MapeoErroneoExcepcion;
 import mapeo.excepcion.MapeoInexistenteExcepcion;
 import mapeo.excepcion.ObjetoErroneoExcepcion;
@@ -28,22 +27,24 @@ public class MapeadorObjetoRelacional {
     private ArrayList listaObjetos;
     private MapeoClaseTabla[] mapeos;
 
-    public MapeadorObjetoRelacional(String URLArchivoConfiguracion) throws ArchivoConfiguracionNoEncontrado {
-        iniciarRelacioTablaClase(URLArchivoConfiguracion);
+    public MapeadorObjetoRelacional(String URLArchivoConfiguracion) throws ArchivoConfiguracionNoEncontradoExcepcion {
+        obtenerMapeos(URLArchivoConfiguracion);
     }
 
-    private void iniciarRelacioTablaClase(String URLArchivoConfiguracion) throws ArchivoConfiguracionNoEncontrado {
+    private void obtenerMapeos(String URLArchivoConfiguracion) throws ArchivoConfiguracionNoEncontradoExcepcion {
         ParseadorConfiguracionMapeo parseador = new ParseadorConfiguracionMapeo();
         mapeos = parseador.parsear(URLArchivoConfiguracion);
     }
 
     public void mapearObjetosRelacion(String URLClase, PoolConnection conexion) throws MapeoInexistenteExcepcion, ObjetoErroneoExcepcion, MapeoErroneoExcepcion, SQLException  {
 
-        MapeoClaseTabla mapeo = encontrarMapeo(URLClase);
-        if (mapeo != null) {
-            String consulta = "SELECT * FROM " + mapeo.getNombreTabla();
+        MapeoClaseTabla mapeoEncontrado = encontrarMapeo(URLClase);
+        
+        if (mapeoEncontrado != null) {
+            String consulta = "SELECT * FROM " + mapeoEncontrado.getNombreTabla();
             ResultSet datosTabla = conexion.query(consulta);
-            GeneradorObjetos generador = new GeneradorObjetos(mapeo, datosTabla);
+            
+            GeneradorObjetos generador = new GeneradorObjetos(mapeoEncontrado, datosTabla);
             generador.generarObjetos();
             listaObjetos = generador.getListaObjetos();
         }else{
@@ -53,7 +54,8 @@ public class MapeadorObjetoRelacional {
     }
 
     private MapeoClaseTabla encontrarMapeo(String clase) {
-        for (int j = 0; j < mapeos.length; j++) {
+        
+         for (int j = 0; j < mapeos.length; j++) {
 
             if ((mapeos[j].getNombreClase()).equals(clase)) {
                 return mapeos[j];

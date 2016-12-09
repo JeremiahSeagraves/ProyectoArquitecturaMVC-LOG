@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import mapeo.MapeoClaseTabla;
-import mapeo.excepcion.ArchivoConfiguracionNoEncontrado;
-
+import mapeo.excepcion.ArchivoConfiguracionNoEncontradoExcepcion;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -17,10 +16,11 @@ public class ParseadorConfiguracionMapeo {
 
     }
 
-    public MapeoClaseTabla[] parsear(String ruta) throws ArchivoConfiguracionNoEncontrado {
+    public MapeoClaseTabla[] parsear(String ruta) throws ArchivoConfiguracionNoEncontradoExcepcion {
         MapeoClaseTabla[] configuracion = null ;
         //Se crea un SAXBuilder para poder parsear el archivo
         SAXBuilder builder = new SAXBuilder();
+        //Se crea un archivo con la ruta del archivo xml
         File xmlFile = new File(ruta);
         try {
             //Se crea el documento a traves del archivo
@@ -29,40 +29,47 @@ public class ParseadorConfiguracionMapeo {
             //Se obtiene la raiz 'map'
             Element rootNode = document.getRootElement();
 
-            //Se obtiene la lista de hijos de la raiz 'map'
+            //Se obtiene la lista de los mapeos
             List<?> list = rootNode.getChildren("class");
+            
+            //Crea un array con tamaño igual al numero de mapeos
             configuracion = new MapeoClaseTabla[list.size()];
             
 
-            //Se recorre la lista de hijos de 'map'
-            for (int i = 0; i < list.size(); i++) {
+            //Se recorre la lista de los mapeos
+            for (int numeroMapeo = 0; numeroMapeo < list.size(); numeroMapeo++) {
                 //Se obtiene el elemento 'class'
-                Element clase = (Element) list.get(i);
-
-                //Se obtiene el atributo 'name' que esta en el tag 'class'
-                String nombreClase = clase.getAttributeValue("name");
-                MapeoClaseTabla nuevaRelacion = new MapeoClaseTabla();
-                nuevaRelacion.setNombreClase(nombreClase);
+                Element clase = (Element) list.get(numeroMapeo);
                 
+                //Se crea el nuevo mapeo
+                MapeoClaseTabla nuevoMapeo = new MapeoClaseTabla();
+                
+                //Se obtiene el nombre de la clase
+                String nombreClase = clase.getAttributeValue("name");
+                nuevoMapeo.setNombreClase(nombreClase);
+                
+                //Se obtiene el elemento que contiene los datos de la tabla
                 Element tabla = clase.getChild("table");
                 
-                //Se obtiene el atributo 'name' que esta en el tag 'class'
+                //Se obtiene el nombre de la tabla
                 String nombreTabla = tabla.getAttributeValue("name");
-                nuevaRelacion.setNombreTabla(nombreTabla);
+                nuevoMapeo.setNombreTabla(nombreTabla);
                 
+                //Se obtiene todos las relaciones entre atributos y campos
                 List<?> listaRelaciones = clase.getChildren("relation");
-                for (int j = 0; j < listaRelaciones.size(); j++) {
-                    Element relacion = (Element) listaRelaciones.get(j);
+                
+            
+                for (int numeroRelacion= 0; numeroRelacion < listaRelaciones.size(); numeroRelacion++) {
+                    Element relacion = (Element) listaRelaciones.get(numeroRelacion);
                     String nombreAtributo = relacion.getAttributeValue("attribute");
                     String nombreCampo = relacion.getAttributeValue("field");
-                    nuevaRelacion.add(nombreAtributo, nombreCampo);
+                    nuevoMapeo.agregar(nombreAtributo, nombreCampo);
                 }
                 
-                configuracion[i] = nuevaRelacion;
-
+                configuracion[numeroMapeo] = nuevoMapeo;
             }
         } catch (IOException | JDOMException io) {
-            throw new ArchivoConfiguracionNoEncontrado("No encontrado Archivo de configuracion: "+ ruta);
+            throw new ArchivoConfiguracionNoEncontradoExcepcion("No encontrado Archivo de configuracion: "+ ruta);
         }
         
         return configuracion;
