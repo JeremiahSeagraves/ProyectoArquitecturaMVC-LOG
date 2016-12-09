@@ -9,10 +9,10 @@ import mapeo.configuracion.ParseadorConfiguracionMapeo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import mapeo.excepcion.ArchivoConfiguracionNoEncontradoExcepcion;
-import mapeo.excepcion.MapeoErroneoExcepcion;
-import mapeo.excepcion.MapeoInexistenteExcepcion;
-import mapeo.excepcion.ObjetoErroneoExcepcion;
+import MVC.excepciones.ArchivoConfiguracionNoEncontradoExcepcion;
+import MVC.excepciones.MapeoErroneoExcepcion;
+import MVC.excepciones.MapeoInexistenteExcepcion;
+import MVC.excepciones.ObjetoErroneoExcepcion;
 import pool.PoolConnection;
 
 /**
