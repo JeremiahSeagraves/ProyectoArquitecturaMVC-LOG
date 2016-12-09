@@ -5,15 +5,15 @@
  */
 package pool;
 
-import MVC.excepciones.ConexionBDException;
+import excepciones.ConexionBDException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import excepciones.ConnectionsInUseException;
 import excepciones.NotAvailableConnectionsException;
-import MVC.excepciones.ConnectionsInUseException;
-import MVC.excepciones.NotAvailableConnectionsException;
+import excepciones.ConnectionsInUseException;
+import excepciones.NotAvailableConnectionsException;
 import conexiones.AdminConexiones;
 
 /**
