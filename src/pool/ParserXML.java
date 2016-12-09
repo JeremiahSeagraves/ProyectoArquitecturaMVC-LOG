@@ -8,11 +8,15 @@ package pool;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom2.Document;
 
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import pool.exceptions.ConnectionsInUseException;
+import pool.exceptions.ErrorPoolConfigException;
 
 /**
  *
@@ -29,18 +33,16 @@ public class ParserXML {
         this.ruta = ruta;
     }
 
-    public void cargarXml() {
+    public void cargarXml() throws ErrorPoolConfigException {
         //System.out.println("cargando xml");
         //Se crea un SAXBuilder para poder parsear el archivo
         SAXBuilder builder = new SAXBuilder();
 
         File xmlFile = new File(ruta);
         try {
-
             //Se crea el documento a traves del archivo
             document = (Document) builder.build(xmlFile);
-
-            //Se obtiene la raiz 'database'
+            
             Element rootNode = document.getRootElement();
 
             //Se obtiene la lista de hijos de la raiz
@@ -51,18 +53,16 @@ public class ParserXML {
                 //Se obtiene el elemento 'config'
                 Element segment = (Element) list.get(i);
 
-                String numberOfsegment = segment.getChildText("segment");
+                //segment = segment.getChildText("segment");
                 //System.out.println("number of segment: " + numberOfsegment);
 
                 //Se obtiene el atributo 'connections' que esta en el tag 'connections'
                 int connections =Integer.parseInt(segment.getChildText("connections"));
-                AdminPool.changeNumberOfPoolConnections(connections);
-                //System.out.println("Number of connections: " + connections);
+                AdminPool.changeNumberOfPoolConnections(connections);                
             }
-        } catch (IOException io) {
-            io.printStackTrace();
-        } catch (JDOMException jdomex) {
-            jdomex.printStackTrace();
-        }
+        } catch (IOException | JDOMException jdomex) {
+            String MENSAJE = "Error al configurar el Pool";
+            throw new ErrorPoolConfigException(MENSAJE);
+        } 
     }
 }

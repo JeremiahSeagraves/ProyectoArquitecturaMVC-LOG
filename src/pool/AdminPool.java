@@ -7,6 +7,8 @@ package pool;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pool.exceptions.ConnectionsInUseException;
 import pool.exceptions.NotAvailableConnectionsException;
 
@@ -38,16 +40,16 @@ public class AdminPool {
         return adminPool;
     }
     
-    public void initializePoolConnections(int numberOfConnections){
+    public void initializePoolConnections(){
         createPoolConnections(numberOfConnections);
     }
     
     public PoolConnection getPoolConnection() throws NotAvailableConnectionsException{
-        if(this.availablePoolConnections.size()>0){
-            for (int i = 0; i < this.availablePoolConnections.size(); i++) {
-                if(this.availablePoolConnections.get(i).isActive()){
-                    this.unavailablePoolConnections.add(this.availablePoolConnections.get(i));
-                    return this.availablePoolConnections.get(i);
+        if(availablePoolConnections.size()>0){
+            for (int i = 0; i < availablePoolConnections.size(); i++) {
+                if(availablePoolConnections.get(i).isActive()){
+                    unavailablePoolConnections.add(availablePoolConnections.get(i));
+                    return availablePoolConnections.get(i);
                 }
             }
         }else{
@@ -58,31 +60,31 @@ public class AdminPool {
     }
     
     public void closeConnection(PoolConnection pc){
-        this.availablePoolConnections.remove(pc);        
+        availablePoolConnections.remove(pc);        
         pc.close();
-        this.availablePoolConnections.add(pc);                
-        this.unavailablePoolConnections.remove(pc);
+        availablePoolConnections.add(pc);                
+        unavailablePoolConnections.remove(pc);
         
         updatePoolConnections();
     }
     
     public void updatePoolConnections(){
-        for (int i = 0; i < this.availablePoolConnections.size(); i++) {
-            if(!this.availablePoolConnections.get(i).isActive()){
-                this.availablePoolConnections.get(i).activate();
+        for (int i = 0; i < availablePoolConnections.size(); i++) {
+            if(!availablePoolConnections.get(i).isActive()){
+                availablePoolConnections.get(i).activate();
             }
         }
     }
     
-    private void createPoolConnections(int numberOfConnections) {
+    private static void createPoolConnections(int numberOfConnections) {
         for (int i = 0; i < numberOfConnections; i++) {
             Connection connection = null;// = AdminConexionesBD.getConnection();
             PoolConnection pc = new PoolConnection(connection);
-            this.availablePoolConnections.add(pc);
+            availablePoolConnections.add(pc);
         }
     }
     
-    public void changePoolConnections() throws ConnectionsInUseException{
+    public static void changePoolConnections() throws ConnectionsInUseException{
         if(numberOfConnections < unavailablePoolConnections.size()){
             throw new ConnectionsInUseException(IMPOSSIBLE_REDUCE_CONNECTIONS);
         }else{
@@ -92,5 +94,5 @@ public class AdminPool {
     
     public static void changeNumberOfPoolConnections(int newNumberOfConnections){
         numberOfConnections = newNumberOfConnections;
-    }
+    }       
 }

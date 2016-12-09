@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pool.exceptions.ArchivoConfigNotFoundException;
+import pool.exceptions.ErrorPoolConfigException;
 
 /**
  *
@@ -24,10 +25,8 @@ public class MonitorArchivoConfiguracion extends Thread{
     private Calendar calendarioActual = null;
     private File archivoConfiguracion = null;
     private ParserXML parser;
-    //private static Logger log = Logger.getLogger(MonitorArchivo);
 
     private static final String ARCHIVO_NO_ENCONTRADO = "El archivo de configuracion del Pool especificado no ha sido encontrado.";
-    //private static final String ARCHIVO_MODIFICADO = "El archivo de configuración BD ha sido modificado.";
 
     public MonitorArchivoConfiguracion(String nombre, String ruta) {
         calendarioUltimaModificacion = new GregorianCalendar();
@@ -39,7 +38,7 @@ public class MonitorArchivoConfiguracion extends Thread{
     @Override
     public void run() {
         actualizarFechas();
-        System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
+        //System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
         while (true) {
             inicializaArchivo();
             
@@ -47,8 +46,7 @@ public class MonitorArchivoConfiguracion extends Thread{
                 existeArchivo();
                 
                 if(cambioArchivo()){
-                    actualizarConfiguracion();
-                    
+                    actualizarConfiguracion();                    
                 }
                 
             } catch (ArchivoConfigNotFoundException ex) {
@@ -68,7 +66,11 @@ public class MonitorArchivoConfiguracion extends Thread{
 
     private void inicializaArchivo() {
         this.archivoConfiguracion = new File(getRuta());
-        this.parser.cargarXml();
+        try {            
+            this.parser.cargarXml();
+        } catch (ErrorPoolConfigException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void existeArchivo() throws ArchivoConfigNotFoundException {
@@ -78,7 +80,11 @@ public class MonitorArchivoConfiguracion extends Thread{
     }
 
     private void actualizarConfiguracion() {
-        parser.cargarXml();
+        try {
+            parser.cargarXml();
+        } catch (ErrorPoolConfigException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private boolean cambioArchivo() {
