@@ -5,12 +5,14 @@
  */
 package pool;
 
+import MVC.excepciones.ConexionBDException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import MVC.excepciones.ConnectionsInUseException;
 import MVC.excepciones.NotAvailableConnectionsException;
+import conexiones.AdminConexiones;
 
 /**
  *
@@ -20,6 +22,7 @@ public class AdminPool {
     private static AdminPool adminPool = null;   
     private static ArrayList<PoolConnection> availablePoolConnections;
     private static ArrayList<PoolConnection> unavailablePoolConnections;
+    private AdminConexiones adminConexiones;
     //private ParserXML parser;
     
     private static int numberOfConnections;
@@ -29,8 +32,9 @@ public class AdminPool {
             + "el número de conexiones. Hay conexiones en uso";
     
     private AdminPool(){
-        this.availablePoolConnections = new ArrayList();
-        this.unavailablePoolConnections = new ArrayList();
+        adminConexiones = new AdminConexiones();
+        availablePoolConnections = new ArrayList();
+        unavailablePoolConnections = new ArrayList();
     }
     
     public static AdminPool getInstance(){
@@ -76,15 +80,20 @@ public class AdminPool {
         }
     }
     
-    private static void createPoolConnections(int numberOfConnections) {
+    private void createPoolConnections(int numberOfConnections) {
         for (int i = 0; i < numberOfConnections; i++) {
-            Connection connection = null;// = AdminConexionesBD.getConnection();
+            Connection connection = null;
+            try {
+                connection = adminConexiones.getConnection();
+            } catch (ConexionBDException ex) {
+                Logger.getLogger(AdminPool.class.getName()).log(Level.SEVERE, null, ex);
+            }
             PoolConnection pc = new PoolConnection(connection);
             availablePoolConnections.add(pc);
         }
     }
     
-    public static void changePoolConnections() throws ConnectionsInUseException{
+    public void changePoolConnections() throws ConnectionsInUseException{
         if(numberOfConnections < unavailablePoolConnections.size()){
             throw new ConnectionsInUseException(IMPOSSIBLE_REDUCE_CONNECTIONS);
         }else{
