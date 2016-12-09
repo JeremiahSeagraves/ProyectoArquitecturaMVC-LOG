@@ -5,7 +5,6 @@
  */
 package MVC.excepciones;
 
-import pool.exceptions.*;
 import org.apache.log4j.Logger;
 
 /**
