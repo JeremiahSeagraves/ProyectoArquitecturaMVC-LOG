@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import mapeo.MapeoClaseTabla;
-import MVC.excepciones.ArchivoConfiguracionNoEncontradoExcepcion;
+import excepciones.ArchivoConfiguracionNoEncontradoExcepcion;
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -12,6 +13,8 @@ import org.jdom.input.SAXBuilder;
 
 public class ParseadorConfiguracionMapeo {
 
+    private static Logger log = Logger.getLogger(ParseadorConfiguracionMapeo.class);
+    private static final String ARCHIVO_NO_ENCONTRADO ="No encontrado Archivo de configuracion: ";
     public ParseadorConfiguracionMapeo() {
 
     }
@@ -69,7 +72,9 @@ public class ParseadorConfiguracionMapeo {
                 configuracion[numeroMapeo] = nuevoMapeo;
             }
         } catch (IOException | JDOMException io) {
-            throw new ArchivoConfiguracionNoEncontradoExcepcion("No encontrado Archivo de configuracion: "+ ruta);
+            log.error(ARCHIVO_NO_ENCONTRADO+ruta);
+            throw new ArchivoConfiguracionNoEncontradoExcepcion(ARCHIVO_NO_ENCONTRADO+ ruta);
+             
         }
         
         return configuracion;

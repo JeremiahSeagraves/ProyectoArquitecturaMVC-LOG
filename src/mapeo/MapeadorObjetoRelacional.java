@@ -9,16 +9,14 @@ import mapeo.configuracion.ParseadorConfiguracionMapeo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import MVC.excepciones.ArchivoConfiguracionNoEncontradoExcepcion;
-import MVC.excepciones.MapeoErroneoExcepcion;
-import MVC.excepciones.MapeoInexistenteExcepcion;
-import MVC.excepciones.ObjetoErroneoExcepcion;
+import excepciones.ArchivoConfiguracionNoEncontradoExcepcion;
+import excepciones.MapeoErroneoExcepcion;
+import excepciones.MapeoInexistenteExcepcion;
+import excepciones.ObjetoErroneoExcepcion;
+import org.apache.log4j.Logger;
 import pool.PoolConnection;
 
 /**
- *
- * @author Noe
- *//**
  *
  * @author Noe
  */
@@ -26,6 +24,7 @@ public class MapeadorObjetoRelacional {
 
     private ArrayList listaObjetos;
     private MapeoClaseTabla[] mapeos;
+    private static final String MAPEO_INEXISTENTE ="No existe un mapeo para la clase: " ;
 
     public MapeadorObjetoRelacional(String URLArchivoConfiguracion) throws ArchivoConfiguracionNoEncontradoExcepcion {
         obtenerMapeos(URLArchivoConfiguracion);
@@ -48,7 +47,7 @@ public class MapeadorObjetoRelacional {
             generador.generarObjetos();
             listaObjetos = generador.getListaObjetos();
         }else{
-            throw new MapeoInexistenteExcepcion("No existe un mapeo para la clase: "+ URLClase);
+            throw new MapeoInexistenteExcepcion(MAPEO_INEXISTENTE+ URLClase);
         }
 
     }

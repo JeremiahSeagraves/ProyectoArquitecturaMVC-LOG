@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MVC.excepciones;
+package excepciones;
 
 import org.apache.log4j.Logger;
 
@@ -11,11 +11,10 @@ import org.apache.log4j.Logger;
  *
  * @author miguelangel
  */
-public class ErrorPoolConfigException extends Exception {
-     private static Logger log = Logger.getLogger(ErrorPoolConfigException.class);
+public class ConnectionsInUseException extends Exception {
+    private static Logger log = Logger.getLogger(ConnectionsInUseException.class);
 
-    
-    public ErrorPoolConfigException(String mensaje){
+    public ConnectionsInUseException(String mensaje){
         super(mensaje);
         log.error(mensaje);
     }

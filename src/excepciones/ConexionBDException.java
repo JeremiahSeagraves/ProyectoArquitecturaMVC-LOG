@@ -1,4 +1,4 @@
-package MVC.excepciones;
+package excepciones;
 
 import java.sql.SQLException;
 

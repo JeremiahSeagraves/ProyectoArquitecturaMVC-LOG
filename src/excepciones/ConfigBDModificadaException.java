@@ -1,4 +1,4 @@
-package MVC.excepciones;
+package excepciones;
 
 public class ConfigBDModificadaException extends Exception{
 
