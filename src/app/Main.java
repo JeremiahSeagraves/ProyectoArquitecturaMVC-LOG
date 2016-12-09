@@ -1,7 +1,7 @@
 package app;
 
 import archivo.MonitorArchivo;
-import MVC.excepciones.ArchivoConfigBDNoEncontradaException;
+import excepciones.ArchivoConfigBDNoEncontradaException;
 
 public class Main {
 	

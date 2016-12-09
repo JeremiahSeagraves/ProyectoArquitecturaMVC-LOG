@@ -9,11 +9,10 @@ import java.io.File;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import MVC.excepciones.ArchivoConfigNotFoundException;
-import MVC.excepciones.ConnectionsInUseException;
-import MVC.excepciones.ErrorPoolConfigException;
+import excepciones.ConnectionsInUseException;
+
+import excepciones.ArchivoConfigNotFoundException;
+import excepciones.ErrorPoolConfigException;
 
 /**
  *

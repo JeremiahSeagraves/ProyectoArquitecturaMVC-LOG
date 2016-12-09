@@ -7,7 +7,7 @@ package pool;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import MVC.excepciones.NotAvailableConnectionsException;
+import excepciones.NotAvailableConnectionsException;
 
 /**
  *

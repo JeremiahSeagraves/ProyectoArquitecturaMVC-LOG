@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
-import MVC.excepciones.ConexionBDException;
+import excepciones.ConexionBDException;
 import MVC.modelo.DatosConexion;
 
 public class AdminConexiones {

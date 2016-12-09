@@ -1,16 +1,16 @@
 package MVC.enlace;
 
 import MVC.controlador.Controlador;
-import MVC.excepciones.ArgumentosNoCorrectos;
-import MVC.excepciones.ClaseNoEncontrada;
-import MVC.excepciones.ErrorAlInvocarObjetivo;
-import MVC.excepciones.FalloInstanciaDeClase;
-import MVC.excepciones.MetodoNoExiste;
+import excepciones.ArgumentosNoCorrectos;
+import excepciones.ClaseNoEncontrada;
+import excepciones.ErrorAlInvocarObjetivo;
+import excepciones.FalloInstanciaDeClase;
+import excepciones.MetodoNoExiste;
 import java.lang.reflect.Method;
 import MVC.vista.Evento;
-import MVC.excepciones.NoEsSubclaseControlador;
-import MVC.excepciones.NoSePuedeAccederAlaClase;
-import MVC.excepciones.ViolacionDeSeguridad;
+import excepciones.NoEsSubclaseControlador;
+import excepciones.NoSePuedeAccederAlaClase;
+import excepciones.ViolacionDeSeguridad;
 import java.lang.reflect.InvocationTargetException;
 
 public class Enlace {

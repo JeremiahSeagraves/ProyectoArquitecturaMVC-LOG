@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MVC.excepciones;
+package excepciones;
 
 import org.apache.log4j.Logger;
 
@@ -11,10 +11,10 @@ import org.apache.log4j.Logger;
  *
  * @author Milka
  */
-public class FalloInstanciaDeClase extends Exception{
+public class ArgumentosNoCorrectos extends Exception{
     
-    private final String mensaje = "Ocurrio un error al instanciar la clase controlador proporcionada";
-    private static Logger log = Logger.getLogger(FalloInstanciaDeClase.class);
+    private final String mensaje = "Los argumentos insertados en el método no son correctos";
+    private static Logger log = Logger.getLogger(ArgumentosNoCorrectos.class);
     
     public String getMensaje(){
         log.error(mensaje);

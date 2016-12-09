@@ -7,8 +7,8 @@ import java.util.GregorianCalendar;
 
 import org.apache.log4j.Logger;
 
-import MVC.excepciones.ConfigBDModificadaException;
-import MVC.excepciones.ArchivoConfigBDNoEncontradaException;
+import excepciones.ConfigBDModificadaException;
+import excepciones.ArchivoConfigBDNoEncontradaException;
 
 public class MonitorArchivo extends Thread {
 	private String ruta = "";

@@ -15,8 +15,8 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import MVC.excepciones.ConnectionsInUseException;
-import MVC.excepciones.ErrorPoolConfigException;
+import excepciones.ConnectionsInUseException;
+import excepciones.ErrorPoolConfigException;
 
 /**
  *

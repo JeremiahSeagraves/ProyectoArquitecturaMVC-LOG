@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MVC.excepciones;
+package excepciones;
 
 import org.apache.log4j.Logger;
 
@@ -11,9 +11,10 @@ import org.apache.log4j.Logger;
  *
  * @author Milka
  */
-public class NoSePuedeAccederAlaClase extends Exception{
-    private final String mensaje = "Ocurrio un error al acceder a la clase";
-    private static Logger log = Logger.getLogger(NoSePuedeAccederAlaClase.class);
+public class ErrorAlInvocarObjetivo extends Exception{
+    
+    private final String mensaje = "Hubo un error al invocar la clase o método";
+    private static Logger log = Logger.getLogger(ErrorAlInvocarObjetivo.class);
     
     public String getMensaje(){
         log.error(mensaje);

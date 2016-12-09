@@ -2,14 +2,14 @@
 package MVC.vista;
 
 import MVC.enlace.Enlace;
-import MVC.excepciones.ArgumentosNoCorrectos;
-import MVC.excepciones.ClaseNoEncontrada;
-import MVC.excepciones.ErrorAlInvocarObjetivo;
-import MVC.excepciones.FalloInstanciaDeClase;
-import MVC.excepciones.MetodoNoExiste;
-import MVC.excepciones.NoEsSubclaseControlador;
-import MVC.excepciones.NoSePuedeAccederAlaClase;
-import MVC.excepciones.ViolacionDeSeguridad;
+import excepciones.ArgumentosNoCorrectos;
+import excepciones.ClaseNoEncontrada;
+import excepciones.ErrorAlInvocarObjetivo;
+import excepciones.FalloInstanciaDeClase;
+import excepciones.MetodoNoExiste;
+import excepciones.NoEsSubclaseControlador;
+import excepciones.NoSePuedeAccederAlaClase;
+import excepciones.ViolacionDeSeguridad;
 
 
 public abstract class Vista {

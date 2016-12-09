@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MVC.excepciones;
+package excepciones;
 
 import org.apache.log4j.Logger;
 
@@ -11,10 +11,9 @@ import org.apache.log4j.Logger;
  *
  * @author Milka
  */
-public class MetodoNoExiste extends Exception{
-    
-    private final String mensaje = "El método no existe";
-    private static Logger log = Logger.getLogger(MetodoNoExiste.class);
+public class ClaseNoEncontrada extends Exception{
+    private final String mensaje = "La clase proporcionada no existe";
+    private static Logger log = Logger.getLogger(ClaseNoEncontrada.class);
     
     public String getMensaje(){
         log.error(mensaje);

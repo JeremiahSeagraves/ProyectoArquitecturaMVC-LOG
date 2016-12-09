@@ -13,8 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import MVC.excepciones.MapeoErroneoExcepcion;
-import MVC.excepciones.ObjetoErroneoExcepcion;
+import excepciones.MapeoErroneoExcepcion;
+import excepciones.ObjetoErroneoExcepcion;
+import org.apache.log4j.Logger;
 
 /**
  *

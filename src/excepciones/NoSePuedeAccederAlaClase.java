@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MVC.excepciones;
+package excepciones;
 
 import org.apache.log4j.Logger;
 
@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
  *
  * @author Milka
  */
-public class NoEsSubclaseControlador extends Exception{
-    private final String mensaje = "La clase proporcionada no es subclase de Controlador";
-    private static Logger log = Logger.getLogger(NoEsSubclaseControlador.class);
+public class NoSePuedeAccederAlaClase extends Exception{
+    private final String mensaje = "Ocurrio un error al acceder a la clase";
+    private static Logger log = Logger.getLogger(NoSePuedeAccederAlaClase.class);
     
     public String getMensaje(){
         log.error(mensaje);
