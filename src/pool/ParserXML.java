@@ -25,9 +25,7 @@ import excepciones.ErrorPoolConfigException;
 public class ParserXML {
 
     private String ruta;
-    private Document document;
-    
-    
+    private Document document;      
 
     public ParserXML(String ruta) {
         this.ruta = ruta;

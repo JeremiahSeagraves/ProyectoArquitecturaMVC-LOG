@@ -23,11 +23,16 @@ public class PoolConnection {
         this.connection = connection;
     }
     
-    public ResultSet query(String query) throws SQLException{
+    public ResultSet recoveryQuery(String query) throws SQLException{
         ResultSet result = null;
         PreparedStatement ps = connection.prepareStatement(query);
         result = ps.executeQuery();
         return result; 
+    }
+    
+    public void insertQuery(String query) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.execute();
     }
     
     public void close(){
