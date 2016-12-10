@@ -39,6 +39,7 @@ public class GeneradorObjetos {
             Object nuevoObjeto = nuevaClase.newInstance();
             while (tabla.next()) {
                 inicializarObjeto(nuevoObjeto);
+                listaObjetos.add(nuevoObjeto);
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             throw new ObjetoErroneoExcepcion("No se puede instanciar el objeto: " + mapeo.getNombreClase());
