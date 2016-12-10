@@ -12,8 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import excepciones.ConnectionsInUseException;
 import excepciones.NotAvailableConnectionsException;
-import excepciones.ConnectionsInUseException;
-import excepciones.NotAvailableConnectionsException;
 import conexiones.AdminConexiones;
 
 /**
