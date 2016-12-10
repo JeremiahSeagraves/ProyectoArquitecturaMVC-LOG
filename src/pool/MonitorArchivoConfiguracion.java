@@ -40,7 +40,7 @@ public class MonitorArchivoConfiguracion extends Thread{
     @Override
     public void run() {
         actualizarFechas();
-        //System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
+        System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
         while (true) {
             inicializaArchivo();
             adminPool.initializePoolConnections();

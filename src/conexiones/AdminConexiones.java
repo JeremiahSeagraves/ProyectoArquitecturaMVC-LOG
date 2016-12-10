@@ -12,6 +12,7 @@ import MVC.modelo.DatosConexion;
 public class AdminConexiones {
 	
 	private static Logger log = Logger.getLogger(AdminConexiones.class);
+        private static AdminConexiones adminConexiones = null;
 	private static final int CODIGO_ERROR_CONEXION_SERVIDOR= 0;
 	private static final String ERROR_CONEXION_SERVIDOR = "Ha ocurrido un error al intentar conectarse al servidor.";
 	private static final int CODIGO_ERROR_NOMBRE_USUARIO = 1044;
@@ -19,6 +20,16 @@ public class AdminConexiones {
 	private static final int CODIGO_ERROR_CONTRASENIA = 1045;	
 	private static final String ERROR_CONTRASENIA = "La contrasenia especificada no coincide con la del usuario";
 	
+        private AdminConexiones(){
+            
+        }
+        
+        public static AdminConexiones obtenerAdminConexiones(){
+            if(adminConexiones==null){
+                adminConexiones = new AdminConexiones();
+            }
+            return adminConexiones;
+        }
 	public Connection getConnection() throws ConexionBDException  {
 		Connection conexion = null;
 		try {

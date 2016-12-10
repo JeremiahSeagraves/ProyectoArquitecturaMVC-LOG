@@ -19,7 +19,6 @@ public class ParserXML {
 	}
 
 	public void cargarXml() {
-		System.out.println("cargando xml");
 		// Se crea un SAXBuilder para poder parsear el archivo
 		SAXBuilder builder = new SAXBuilder();
 		File xmlFile = new File(ruta);
@@ -41,10 +40,7 @@ public class ParserXML {
 				// Se obtiene el atributo 'name' que esta en el tag 'database'
 				String nombreDatabase = database.getAttributeValue("name");
 
-				System.out.println("Database: " + nombreDatabase);
-
-				System.out.println("\tControlador\t\tServidor\t\tPuerto\t\tUsuario\t\tContrasenia");
-
+				
 				// Se obtienen los valores que estan entre los tags
 				// '<config></config>'
 				// Se obtiene el valor que esta entre los tags

@@ -1,5 +1,6 @@
 package archivo;
 
+import conexiones.AdminConexiones;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class MonitorArchivo extends Thread {
 	@Override
 	public void run() {
 		actualizarFechas();
+                actualizarConfiguracionBD();
 		System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
 		while (true) {
 			inicializaArchivo();
