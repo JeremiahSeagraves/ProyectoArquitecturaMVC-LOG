@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -25,14 +26,14 @@ public class PoolConnection {
     
     public ResultSet recoveryQuery(String query) throws SQLException{
         ResultSet result = null;
-        PreparedStatement ps = connection.prepareStatement(query);
-        result = ps.executeQuery(); 
+        Statement sentencia = connection.createStatement();
+        result = sentencia.executeQuery(query);
         return result; 
     }
     
     public void insertQuery(String query) throws SQLException{
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.execute();
+        Statement sentencia = connection.createStatement();
+        sentencia.executeUpdate(query);
     }
     
     public void close(){

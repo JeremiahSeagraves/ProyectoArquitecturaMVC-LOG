@@ -86,14 +86,14 @@ public class Enlace {
     }
 
     private Method enviarAControladorElEvento(Class clazz) throws MetodoNoExiste, ViolacionDeSeguridad {
-        Method metodo1;
+        Method metodo1=null;
         try {
             metodo1 = clazz.getSuperclass().getDeclaredMethod("setEvento", Evento.class);
-            return metodo1;
         } catch (NoSuchMethodException ex) {
             throw new MetodoNoExiste();
         } catch (SecurityException ex) {
             throw new ViolacionDeSeguridad();
         }
+        return metodo1;
     }
 }
