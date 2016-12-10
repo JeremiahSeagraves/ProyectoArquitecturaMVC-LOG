@@ -41,7 +41,7 @@ public class MapeadorObjetoRelacional {
         
         if (mapeoEncontrado != null) {
             String consulta = "SELECT * FROM " + mapeoEncontrado.getNombreTabla();
-            ResultSet datosTabla = conexion.query(consulta);
+            ResultSet datosTabla = conexion.recoveryQuery(consulta);
             
             GeneradorObjetos generador = new GeneradorObjetos(mapeoEncontrado, datosTabla);
             generador.generarObjetos();
