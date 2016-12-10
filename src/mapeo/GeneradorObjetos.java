@@ -36,8 +36,9 @@ public class GeneradorObjetos {
     public void generarObjetos() throws ObjetoErroneoExcepcion, MapeoErroneoExcepcion, SQLException {
         try {
             Class nuevaClase = Class.forName(mapeo.getNombreClase());
-            Object nuevoObjeto = nuevaClase.newInstance();
+            
             while (tabla.next()) {
+                Object nuevoObjeto = nuevaClase.newInstance();
                 inicializarObjeto(nuevoObjeto);
                 listaObjetos.add(nuevoObjeto);
             }
