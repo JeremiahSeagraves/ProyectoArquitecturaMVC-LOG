@@ -10,11 +10,11 @@ package Seguridad;
  * @author Angel Basto Gonzalez
  */
 public class Usuario {
-    private String nombreUsuario, contraseña;
+    private String nombreUsuario, contrasenia;
 
-    public Usuario(String nombreUsuario, String contraseña) {
+    public Usuario(String nombreUsuario, String contrasenia) {
         this.nombreUsuario = nombreUsuario;
-        this.contraseña = contraseña;
+        this.contrasenia = contrasenia;
     }
 
     public String getNombreUsuario() {
@@ -25,12 +25,12 @@ public class Usuario {
         this.nombreUsuario = nombreUsuario;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
     
 }

@@ -51,7 +51,7 @@ public class AdminLogin {
             if(!isBloqueado()){
                 if(obtenerPermiso()){
                     if (validarUsuario(nombreUsuario)) {
-                        if (validarContraseña(nombreUsuario, contraseña)) {
+                        if (validarContrasenia(nombreUsuario, contraseña)) {
                             System.out.println("Acceso autorizado");
                             return true;
                         } else {
@@ -80,9 +80,9 @@ public class AdminLogin {
         return false;
     }
     
-    private boolean validarContraseña(String nombreUsuario, String contraseña){
+    private boolean validarContrasenia(String nombreUsuario, String contrasenia){
         Usuario usuario = usuariosDao.obtenerUsuario(nombreUsuario);
-        if(usuario.getContraseña().equals(contraseña)){
+        if(usuario.getContrasenia().equals(contrasenia)){
             return true;
         }
         return false;
