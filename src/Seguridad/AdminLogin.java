@@ -5,6 +5,7 @@
  */
 package Seguridad;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 /**
@@ -15,13 +16,12 @@ public class AdminLogin {
     private final int NUM_MAX_INTENTOS = 5;
     private int numIntentos = 1;
     private static AdminLogin adminLogin;
+    private ArrayList<Usuario> listaUsuario;
     
     public boolean bloqueado = false;
     
-    private UsuariosDao usuariosDao;
     
     private AdminLogin() {
-        this.usuariosDao = new UsuariosDao();
     }
     
     public static AdminLogin obtenerAdminLogin(){
@@ -29,6 +29,10 @@ public class AdminLogin {
             adminLogin = new AdminLogin();
         }
         return adminLogin;
+    }
+    
+    private void pasarListaUsuarios(ArrayList<Usuario> listaUsuario){
+        this.listaUsuario = listaUsuario;
     }
 
     public int getNumIntentos() {
@@ -74,16 +78,19 @@ public class AdminLogin {
     }
     
     private boolean validarUsuario(String usuario){
-        if(usuariosDao.obtenerUsuario(usuario)!=null){
+        for(int i=0; i<listaUsuario.size(); i++){
+            if(listaUsuario.get(i).getNombreUsuario().equals(usuario)){
             return true;
+            }
         }
         return false;
     }
     
     private boolean validarContrasenia(String nombreUsuario, String contrasenia){
-        Usuario usuario = usuariosDao.obtenerUsuario(nombreUsuario);
-        if(usuario.getContrasenia().equals(contrasenia)){
+        for(int i=0; i<listaUsuario.size(); i++){
+            if(listaUsuario.get(i).getNombreUsuario().equals(nombreUsuario) && listaUsuario.get(i).equals(contrasenia)){
             return true;
+            }
         }
         return false;
     }
