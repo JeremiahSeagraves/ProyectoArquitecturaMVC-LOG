@@ -26,7 +26,7 @@ public class PoolConnection {
     public ResultSet recoveryQuery(String query) throws SQLException{
         ResultSet result = null;
         PreparedStatement ps = connection.prepareStatement(query);
-        result = ps.executeQuery();
+        result = ps.executeQuery(); 
         return result; 
     }
     
