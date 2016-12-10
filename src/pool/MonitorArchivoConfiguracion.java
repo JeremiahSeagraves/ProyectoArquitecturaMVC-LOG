@@ -43,7 +43,6 @@ public class MonitorArchivoConfiguracion extends Thread{
         System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
         while (true) {
             inicializaArchivo();
-            adminPool.initializePoolConnections();
             try {
                 existeArchivo();
                 
