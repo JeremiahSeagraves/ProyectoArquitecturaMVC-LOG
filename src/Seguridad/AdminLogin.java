@@ -22,7 +22,6 @@ public class AdminLogin {
     
     
     private AdminLogin() {
-        bloqueado = false;
     }
     
     public static AdminLogin obtenerAdminLogin(){
