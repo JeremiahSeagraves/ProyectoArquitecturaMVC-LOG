@@ -1,0 +1,9 @@
+<database>
+	<config name="elcaballodehierro">
+		<controller>com.mysql.jdbc.Driver</controller>
+		<serverurl>jdbc:mysql://localhost</serverurl>
+		<port>3306</port>
+		<username>root</username>
+		<password></password>
+	</config>
+</database>
