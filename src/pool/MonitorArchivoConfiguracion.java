@@ -5,6 +5,7 @@
  */
 package pool;
 
+import archivo.MonitorArchivo;
 import java.io.File;
 import java.sql.Date;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import excepciones.ConnectionsInUseException;
 
 import excepciones.ArchivoConfigNotFoundException;
 import excepciones.ErrorPoolConfigException;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -26,6 +28,7 @@ public class MonitorArchivoConfiguracion extends Thread{
     private File archivoConfiguracion = null;
     private AdminPool adminPool;
     private ParserXML parser;
+    private static Logger log = Logger.getLogger(MonitorArchivoConfiguracion.class);
 
     private static final String ARCHIVO_NO_ENCONTRADO = "El archivo de configuracion del Pool especificado no ha sido encontrado.";
 
@@ -40,7 +43,7 @@ public class MonitorArchivoConfiguracion extends Thread{
     @Override
     public void run() {
         actualizarFechas();
-        System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
+        log.warn("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
         while (true) {
             inicializaArchivo();
             try {
@@ -78,6 +81,7 @@ public class MonitorArchivoConfiguracion extends Thread{
 
     private void existeArchivo() throws ArchivoConfigNotFoundException {
         if (!archivoConfiguracion.exists()) {
+            log.error(ARCHIVO_NO_ENCONTRADO);
             throw new ArchivoConfigNotFoundException(ARCHIVO_NO_ENCONTRADO);
         }
     }
