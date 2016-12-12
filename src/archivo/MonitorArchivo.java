@@ -31,7 +31,7 @@ public class MonitorArchivo extends Thread {
 	public void run() {
 		actualizarFechas();
                 actualizarConfiguracionBD();
-		System.out.println("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
+		log.warn("Se ha comenzado a monitorear al archivo: \"" + getRuta() + "\"");
 		while (true) {
 			inicializaArchivo();
 			try {
